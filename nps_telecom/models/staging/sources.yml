@@ -1,0 +1,14 @@
+version: 2
+
+sources:
+  - name: nps_raw
+    database: nps-telecom-1234
+    schema: nps_raw
+    tables:
+      - name: respostas_nps
+      - name: clientes
+      - name: produtos
+      - name: canais
+      - name: colaboradores
+      - name: calendario
+      - name: regra_nps
