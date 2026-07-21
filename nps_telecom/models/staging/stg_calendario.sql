@@ -10,3 +10,7 @@ select
     cast(ano_mes as string)        as ano_mes,
     cast(dia_semana as string)     as dia_semana
 from fonte
+-- Dimensão de calendário exige data válida e única.
+-- Descarta linhas com data inválida (ex.: '2026-13-02' -> null).
+qualify data is not null
+    and row_number() over (partition by data order by data) = 1
