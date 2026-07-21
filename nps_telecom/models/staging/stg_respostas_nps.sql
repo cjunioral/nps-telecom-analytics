@@ -70,6 +70,9 @@ final as (
     from limpo
     -- Mantém só registros válidos (remove Teste, Duplicado, Cancelado).
     where status_registro = 'Válido'
+      -- Descarta respostas órfãs (sem cliente): não cruzam com a dimensão
+      -- e distorceriam métricas. Ex.: RSP99991 (registro de teste injetado).
+      and id_cliente is not null
     -- Deduplica id_resposta (a origem tem 10 duplicados reais).
     qualify row_number() over (
         partition by id_resposta order by data_resposta desc

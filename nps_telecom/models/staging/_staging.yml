@@ -1,0 +1,67 @@
+version: 2
+
+models:
+  - name: stg_respostas_nps
+    description: >
+      Respostas de pesquisa de NPS, limpas e padronizadas.
+      Grão: uma linha por resposta válida (status 'Válido', id_resposta único).
+    columns:
+      - name: id_resposta
+        description: Identificador único da resposta. PK da tabela fato.
+        data_tests:
+          - unique
+          - not_null
+      - name: id_cliente
+        description: FK para stg_clientes.
+        data_tests:
+          - not_null
+      - name: nota_nps
+        description: Nota de 0 a 10. Nulo quando a origem trouxe valor inválido.
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                quote: false
+      - name: canal
+        description: Canal de atendimento, padronizado a partir de variações da origem.
+      - name: status_registro
+        description: Sempre 'Válido' nesta camada (demais status filtrados).
+
+  - name: stg_clientes
+    description: Dimensão de clientes, chave normalizada.
+    columns:
+      - name: id_cliente
+        description: PK do cliente.
+        data_tests:
+          - unique
+          - not_null
+
+  - name: stg_produtos
+    description: Dimensão de produtos.
+    columns:
+      - name: id_produto
+        data_tests: [unique, not_null]
+
+  - name: stg_canais
+    description: Dimensão de canais de atendimento.
+    columns:
+      - name: id_canal
+        data_tests: [unique, not_null]
+
+  - name: stg_colaboradores
+    description: Dimensão de colaboradores.
+    columns:
+      - name: id_colaborador
+        data_tests: [unique, not_null]
+
+  - name: stg_regra_nps
+    description: Regra de negócio - mapeia nota (0-10) para classificação NPS.
+    columns:
+      - name: nota
+        data_tests: [unique, not_null]
+      - name: classificacao
+        description: Detrator (0-6), Neutro (7-8) ou Promotor (9-10).
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['Detrator', 'Neutro', 'Promotor']
