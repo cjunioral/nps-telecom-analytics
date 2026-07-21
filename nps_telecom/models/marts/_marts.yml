@@ -1,0 +1,59 @@
+version: 2
+
+models:
+  - name: fct_nps_respostas
+    description: >
+      Tabela fato de NPS. Grão: uma resposta válida por linha, com nota (0-10),
+      classificação (Detrator/Neutro/Promotor) e flags para cálculo do NPS.
+    columns:
+      - name: id_resposta
+        description: PK da resposta.
+        data_tests:
+          - unique
+          - not_null
+      - name: id_cliente
+        description: FK para dim_clientes.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_clientes')
+                field: id_cliente
+      - name: nota_nps
+        description: Nota de 0 a 10.
+        data_tests:
+          - not_null
+      - name: classificacao_nps
+        description: Detrator (0-6), Neutro (7-8) ou Promotor (9-10).
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Detrator', 'Neutro', 'Promotor']
+
+  - name: dim_clientes
+    description: Dimensão de clientes.
+    columns:
+      - name: id_cliente
+        data_tests: [unique, not_null]
+
+  - name: dim_produtos
+    description: Dimensão de produtos.
+    columns:
+      - name: id_produto
+        data_tests: [unique, not_null]
+
+  - name: dim_canais
+    description: Dimensão de canais.
+    columns:
+      - name: id_canal
+        data_tests: [unique, not_null]
+
+  - name: dim_colaboradores
+    description: Dimensão de colaboradores.
+    columns:
+      - name: id_colaborador
+        data_tests: [unique, not_null]
+
+  - name: mart_nps_resumo
+    description: NPS agregado por mês, canal e produto. Tabela servida ao Power BI.
