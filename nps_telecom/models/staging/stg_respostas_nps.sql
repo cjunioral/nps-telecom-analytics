@@ -28,7 +28,7 @@ limpo as (
             when lower(trim(canal)) in ('call center','callcenter') then 'Call Center'
             when lower(trim(canal)) in ('whatsapp','wpp')           then 'WhatsApp'
             when lower(trim(canal)) in ('loja','loja física')       then 'Loja'
-            when lower(trim(canal)) in ('app','app minha tcm')      then 'App Minha TCM'
+            when lower(trim(canal)) in ('app','app minha tcm')      then 'App'
             when lower(trim(canal)) = 'e-mail'                      then 'E-mail'
             when lower(trim(canal)) = 'pesquisa pós-atendimento'    then 'Pesquisa Pós-Atendimento'
             else initcap(trim(canal))
