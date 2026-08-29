@@ -109,10 +109,6 @@ nps-telecom-analytics/
     └── dbt_project.yml
 ```
 
-## 🔗 Links
-
-- **Dashboard (Power BI):** _em breve_
-
 ---
 
 *Projeto de portfólio desenvolvido por [Cicero Junior](https://github.com/cjunioral).*
